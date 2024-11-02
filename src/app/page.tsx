@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -103,14 +104,14 @@ export default function Component() {
 }
 
 function BackgroundAnimation() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+    const canvas: any = canvasRef.current as HTMLCanvasElement | null;
+    const ctx = canvas?.getContext("2d"); // Optional chaining to simplify null check
 
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    // Early return if canvas or ctx is null
+    if (!canvas || !ctx) return;
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -211,7 +212,7 @@ function BackgroundAnimation() {
 
       createLinks();
 
-      for (let particle of particles) {
+      for (const particle of particles) {
         particle.update(); // Update particle position
         particle.draw();
         particle.links = particle.links.filter((link) => {
