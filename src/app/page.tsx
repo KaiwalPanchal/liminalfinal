@@ -131,7 +131,7 @@ export default function Component() {
                   Thanks for joining! 🎉
                 </div>
                 <p className="text-white/80">
-                  We&aposll keep you updated on our progress.
+                  We&apos;ll keep you updated on our progress.
                 </p>
               </motion.div>
             )}
