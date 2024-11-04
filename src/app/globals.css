@@ -7,6 +7,10 @@ body {
   /* font-family: Arial, Helvetica, sans-serif; */
 }
 
+#liminal-title {
+  font-family: 'Space Mono';
+}
+
 .title{
   font-family: 'Space Mono';
 }

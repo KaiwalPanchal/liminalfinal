@@ -23,7 +23,10 @@ export default function Component() {
 
       <header className="container mx-auto px-10 py-6 flex justify-between items-center relative z-20">
         <div className="flex items-center space-x-2">
-          <h1 className="text-4xl font-normal text-white title tracking-[1px]">
+          <h1
+            id="liminal-title"
+            className="text-4xl font-normal text-white title tracking-[1px]"
+          >
             Liminal
           </h1>
         </div>
