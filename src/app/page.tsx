@@ -93,7 +93,7 @@ export default function Component() {
       <footer className="py-8 relative z-20">
         <div className="container mx-auto px-4">
           <div className="flex justify-center items-center">
-            <span className="text-sm text-white/80">&copy;</span>
+            <span className="text-sm text-white/80"> </span>
           </div>
         </div>
       </footer>
