@@ -1,15 +1,238 @@
+import { useEffect, useRef } from "react";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import React from "react";
+import { Roboto } from "next/font/google";
 
-export default function AboutPage() {
+const roboto = Roboto({
+  weight: ["400", "700"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+export default function About() {
   return (
-    <div>
-      About
-      <li>
-        <Link href="/" className="text-sm hover:underline text-white">
-          HOME
-        </Link>
-      </li>
+    <div
+      className={`min-h-screen flex flex-col relative overflow-hidden dark ${roboto.className}`}
+    >
+      <BackgroundAnimation />
+
+      <div className="absolute inset-0 bg-gradient-to-b from-[#151515]/80 to-[#151515]/20 backdrop-blur-sm z-10"></div>
+
+      <header className="container mx-auto px-4 py-6 flex justify-between items-center relative z-20">
+        <div className="flex items-center space-x-2">
+          <Link
+            href="/"
+            className="text-xl font-bold text-white hover:underline"
+          >
+            Curios.tech
+          </Link>
+        </div>
+        <nav>
+          <ul className="flex space-x-4">
+            <li>
+              <Link href="/" className="text-sm hover:underline text-white">
+                Home
+              </Link>
+            </li>
+            <li>
+              <Link href="#" className="text-sm hover:underline text-white">
+                Contact
+              </Link>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main className="flex-grow flex items-center relative z-20">
+        <div className="container mx-auto px-4 py-20 text-center">
+          <motion.div
+            className="space-y-6 mb-12 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <h1 className="text-3xl md:text-4xl text-white/80 font-normal leading-relaxed">
+              Hey! I&apos;m Kaiwal, and I&apos;m building a productivity and
+              knowledge management tool that stems from my own experiences with
+              apps like Notion and Obsidian.
+            </h1>
+            <p className="text-xl md:text-2xl text-white/70 font-normal leading-relaxed">
+              While these tools are great, I&apos;ve encountered some
+              limitations that I believe could be solved differently.
+            </p>
+            <p className="text-xl md:text-2xl text-white/70 font-normal leading-relaxed">
+              This project is currently in beta, and I&apos;m working on
+              creating solutions to these challenges while exploring new ideas
+              for better knowledge management. I&apos;d love to hear your
+              thoughts, whether it&apos;s feedback on the current features,
+              suggestions for new ones, or ideas about what you find missing in
+              other note-taking apps.
+            </p>
+            <p className="text-xl md:text-2xl text-white/70 font-normal leading-relaxed">
+              If you&apos;re interested in collaborating on this project, or if
+              you&apos;d just like to share your thoughts, feel free to reach
+              out at{" "}
+              <a
+                href="mailto:kaiwal@liminal.buzz"
+                className="text-white hover:underline"
+              >
+                kaiwal@liminal.buzz
+              </a>
+              .
+            </p>
+            <p className="text-xl md:text-2xl text-white/70 font-normal leading-relaxed">
+              Thanks for stopping by – stay buzzin&apos;!
+            </p>
+          </motion.div>
+        </div>
+      </main>
     </div>
+  );
+}
+
+function BackgroundAnimation() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current! as HTMLCanvasElement;
+    const ctx = canvas?.getContext("2d"); // Optional chaining to simplify null check
+
+    // Early return if canvas or ctx is null
+    if (!canvas || !ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles: Particle[] = [];
+    const particleCount = 50;
+    const connectionDistance = 150;
+    const linkLifespan = 800; // Increased by 4x (was 200)
+    const linkChance = 0.005; // Reduced by 4x (was 0.02)
+
+    class Particle {
+      x: number;
+      y: number;
+      size: number;
+      links: Link[];
+      speedX: number;
+      speedY: number;
+
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2 + 1;
+        this.links = [];
+        this.speedX = (Math.random() - 0.5) * 0.1; // Very slow movement
+        this.speedY = (Math.random() - 0.5) * 0.1; // Very slow movement
+      }
+
+      update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        // Wrap around the canvas
+        if (this.x < 0) this.x = canvas.width;
+        if (this.x > canvas.width) this.x = 0;
+        if (this.y < 0) this.y = canvas.height;
+        if (this.y > canvas.height) this.y = 0;
+      }
+
+      draw() {
+        if (!ctx) return;
+        ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    class Link {
+      particle1: Particle;
+      particle2: Particle;
+      lifespan: number;
+
+      constructor(p1: Particle, p2: Particle) {
+        this.particle1 = p1;
+        this.particle2 = p2;
+        this.lifespan = linkLifespan;
+      }
+
+      update() {
+        this.lifespan--;
+      }
+
+      draw() {
+        if (!ctx) return;
+        const alpha = this.lifespan / linkLifespan;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha * 0.5})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(this.particle1.x, this.particle1.y);
+        ctx.lineTo(this.particle2.x, this.particle2.y);
+        ctx.stroke();
+      }
+    }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function createLinks() {
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (distance < connectionDistance && Math.random() < linkChance) {
+            const link = new Link(particles[i], particles[j]);
+            particles[i].links.push(link);
+            particles[j].links.push(link);
+          }
+        }
+      }
+    }
+
+    function animate() {
+      if (!ctx || !canvas) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      createLinks();
+
+      for (const particle of particles) {
+        particle.update(); // Update particle position
+        particle.draw();
+        particle.links = particle.links.filter((link) => {
+          link.update();
+          if (link.lifespan > 0) {
+            link.draw();
+            return true;
+          }
+          return false;
+        });
+      }
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      className="absolute top-0 left-0 w-full h-full bg-[#151515]"
+    />
   );
 }
