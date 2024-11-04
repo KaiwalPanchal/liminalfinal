@@ -61,11 +61,6 @@ export default function Component() {
                 About
               </a>
             </li>
-            <li>
-              <a href="#" className="text-sm hover:underline text-white">
-                Contact
-              </a>
-            </li>
           </ul>
         </nav>
       </header>
