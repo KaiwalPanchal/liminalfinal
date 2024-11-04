@@ -62,7 +62,7 @@ export default function Component() {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <p className="text-2xl md:text-3xl text-white/80 font-normal">
-              Curious what your mind can really do?
+              Your thoughts, but better organized than your sock drawer
             </p>
           </motion.div>
           <motion.form
@@ -93,9 +93,7 @@ export default function Component() {
       <footer className="py-8 relative z-20">
         <div className="container mx-auto px-4">
           <div className="flex justify-center items-center">
-            <span className="text-sm text-white/80">
-              &copy; 2024 Curios. All rights reserved.
-            </span>
+            <span className="text-sm text-white/80">&copy;</span>
           </div>
         </div>
       </footer>
