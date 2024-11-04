@@ -41,7 +41,7 @@ export default function Component() {
             <h1 className="text-3xl md:text-4xl text-white/80 font-normal leading-relaxed">
               Hey! I&apos;m Kaiwal
             </h1>
-            <p>
+            <p className="text-xl md:text-2xl text-white/70 font-normal leading-relaxed">
               I&apos;m building a productivity and knowledge management tool
               that stems from my own experiences with apps like Notion and
               Obsidian.
