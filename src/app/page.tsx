@@ -5,7 +5,6 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
-
 export default function Component() {
   const [email, setEmail] = useState("");
 
@@ -92,6 +91,7 @@ export default function Component() {
             </Button>
           </motion.form>
         </div>
+        <Analytics />
       </main>
 
       <footer className="py-8 relative z-20">
