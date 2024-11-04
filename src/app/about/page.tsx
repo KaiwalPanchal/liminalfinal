@@ -1,43 +1,30 @@
-import { useEffect, useRef } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import Link from "next/link";
-import { Roboto } from "next/font/google";
 
-const roboto = Roboto({
-  weight: ["400", "700"],
-  subsets: ["latin"],
-  display: "swap",
-});
-
-export default function About() {
+export default function Component() {
   return (
-    <div
-      className={`min-h-screen flex flex-col relative overflow-hidden dark ${roboto.className}`}
-    >
+    <div className="min-h-screen flex flex-col relative overflow-hidden font-handwritten dark">
       <BackgroundAnimation />
 
       <div className="absolute inset-0 bg-gradient-to-b from-[#151515]/80 to-[#151515]/20 backdrop-blur-sm z-10"></div>
 
-      <header className="container mx-auto px-4 py-6 flex justify-between items-center relative z-20">
+      <header className="container mx-auto px-10 py-6 flex justify-between items-center relative z-20">
         <div className="flex items-center space-x-2">
-          <Link
-            href="/"
-            className="text-xl font-bold text-white hover:underline"
+          <h1
+            id="liminal-title"
+            className="text-4xl font-normal text-white title tracking-[1px]"
           >
-            Curios.tech
-          </Link>
+            Liminal
+          </h1>
         </div>
         <nav>
           <ul className="flex space-x-4">
             <li>
-              <Link href="/" className="text-sm hover:underline text-white">
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link href="#" className="text-sm hover:underline text-white">
-                Contact
-              </Link>
+              <a href="/about" className="text-sm hover:underline text-white">
+                About
+              </a>
             </li>
           </ul>
         </nav>
@@ -86,6 +73,14 @@ export default function About() {
           </motion.div>
         </div>
       </main>
+
+      <footer className="py-8 relative z-20">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-center items-center">
+            <span className="text-sm text-white/80"> </span>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
@@ -94,10 +89,9 @@ function BackgroundAnimation() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const canvas = canvasRef.current! as HTMLCanvasElement;
-    const ctx = canvas?.getContext("2d"); // Optional chaining to simplify null check
+    const canvas: any = canvasRef.current as HTMLCanvasElement | null;
+    const ctx = canvas?.getContext("2d");
 
-    // Early return if canvas or ctx is null
     if (!canvas || !ctx) return;
 
     canvas.width = window.innerWidth;
@@ -106,8 +100,8 @@ function BackgroundAnimation() {
     const particles: Particle[] = [];
     const particleCount = 50;
     const connectionDistance = 150;
-    const linkLifespan = 800; // Increased by 4x (was 200)
-    const linkChance = 0.005; // Reduced by 4x (was 0.02)
+    const linkLifespan = 800;
+    const linkChance = 0.005;
 
     class Particle {
       x: number;
@@ -122,15 +116,14 @@ function BackgroundAnimation() {
         this.y = Math.random() * canvas.height;
         this.size = Math.random() * 2 + 1;
         this.links = [];
-        this.speedX = (Math.random() - 0.5) * 0.1; // Very slow movement
-        this.speedY = (Math.random() - 0.5) * 0.1; // Very slow movement
+        this.speedX = (Math.random() - 0.5) * 0.1;
+        this.speedY = (Math.random() - 0.5) * 0.1;
       }
 
       update() {
         this.x += this.speedX;
         this.y += this.speedY;
 
-        // Wrap around the canvas
         if (this.x < 0) this.x = canvas.width;
         if (this.x > canvas.width) this.x = 0;
         if (this.y < 0) this.y = canvas.height;
@@ -200,7 +193,7 @@ function BackgroundAnimation() {
       createLinks();
 
       for (const particle of particles) {
-        particle.update(); // Update particle position
+        particle.update();
         particle.draw();
         particle.links = particle.links.filter((link) => {
           link.update();
