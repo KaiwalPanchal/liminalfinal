@@ -5,14 +5,38 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+
 export default function Component() {
   const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle email submission here
-    console.log("Email submitted:", email);
-    setEmail("");
+    setIsSubmitting(true);
+
+    try {
+      const waitlistRef = collection(db, "waitlist");
+      await addDoc(waitlistRef, {
+        email: email,
+        timestamp: serverTimestamp(),
+        status: "pending",
+      });
+
+      setEmail("");
+      setIsSubmitted(true);
+      console.log("Email successfully added to waitlist");
+
+      // Optional: Reset the success message after 5 seconds
+      // setTimeout(() => setIsSubmitted(false), 5000);
+    } catch (error) {
+      console.error("Error adding email to waitlist:", error);
+      setIsSubmitted(false);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -75,20 +99,42 @@ export default function Component() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            <Input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
-              required
-            />
-            <Button
-              type="submit"
-              className="bg-white text-[#151515] hover:bg-white/90"
-            >
-              → Join the waitlist for early access
-            </Button>
+            {!isSubmitted ? (
+              <>
+                <Input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
+                  required
+                  disabled={isSubmitting}
+                />
+                <Button
+                  type="submit"
+                  className="bg-white text-[#151515] hover:bg-white/90"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting
+                    ? "Joining..."
+                    : "→ Join the waitlist for early access"}
+                </Button>
+              </>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-center space-y-4"
+              >
+                <div className="text-2xl text-white font-medium">
+                  Thanks for joining! 🎉
+                </div>
+                <p className="text-white/80">
+                  We&aposll keep you updated on our progress.
+                </p>
+              </motion.div>
+            )}
           </motion.form>
         </div>
         <Analytics />
