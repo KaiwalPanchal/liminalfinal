@@ -39,10 +39,13 @@ export default function Component() {
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-3xl md:text-4xl text-white/80 font-normal leading-relaxed">
-              Hey! I&apos;m Kaiwal, and I&apos;m building a productivity and
-              knowledge management tool that stems from my own experiences with
-              apps like Notion and Obsidian.
+              Hey! I&apos;m Kaiwal
             </h1>
+            <p>
+              I&apos;m building a productivity and knowledge management tool
+              that stems from my own experiences with apps like Notion and
+              Obsidian.
+            </p>
             <p className="text-xl md:text-2xl text-white/70 font-normal leading-relaxed">
               While these tools are great, I&apos;ve encountered some
               limitations that I believe could be solved differently.
