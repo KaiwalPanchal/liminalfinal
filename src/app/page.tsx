@@ -7,142 +7,207 @@ import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
 import { db } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { AppSidebar } from "@/components/ui/app-sidebar"
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Separator } from "@/components/ui/separator"
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // Import Collapsible from shadcn
+import { Editor } from "@/components/editor";
+
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  created_at: string;
+  updated_at: string;
+  tags: string[];
+  is_archived: boolean;
+}
+
 
 export default function Component() {
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const waitlistRef = collection(db, "waitlist");
-      await addDoc(waitlistRef, {
-        email: email,
-        timestamp: serverTimestamp(),
-        status: "pending",
-      });
-
-      setEmail("");
-      setIsSubmitted(true);
-      console.log("Email successfully added to waitlist");
-
-      // Optional: Reset the success message after 5 seconds
-      // setTimeout(() => setIsSubmitted(false), 5000);
-    } catch (error) {
-      console.error("Error adding email to waitlist:", error);
-      setIsSubmitted(false);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  // const [notes, setNotes] = useState<any>([]);
+  const [activeNote, setActiveNote] = useState<any>({
+    "id": "1",
+    "title": "Meeting Notes",
+    "content": "Discussed project timelines and tasks for the next sprint.",
+    "created_at": "2024-11-12T10:00:00Z",
+    "updated_at": "2024-11-12T12:00:00Z",
+    "tags": ["work", "project", "sprint"],
+    "is_archived": false
+  });
+  const notedata:Note[] =  [
+      {
+        "id": "1",
+        "title": "Meeting Notes",
+        "content": "Discussed project timelines and tasks for the next sprint.",
+        "created_at": "2024-11-12T10:00:00Z",
+        "updated_at": "2024-11-12T12:00:00Z",
+        "tags": ["work", "project", "sprint"],
+        "is_archived": false
+      },
+      {
+        "id": "2",
+        "title": "Shopping List",
+        "content": "Milk, Eggs, Bread, Butter, Apples",
+        "created_at": "2024-11-11T08:00:00Z",
+        "updated_at": "2024-11-11T09:00:00Z",
+        "tags": ["personal", "shopping"],
+        "is_archived": false
+      },
+      {
+        "id": "3",
+        "title": "Grocery Store Ideas",
+        "content": "Find a new recipe to try for dinner.",
+        "created_at": "2024-11-10T15:00:00Z",
+        "updated_at": "2024-11-10T16:00:00Z",
+        "tags": ["personal", "ideas"],
+        "is_archived": true
+      },
+      {
+        "id": "4",
+        "title": "Workout Plan",
+        "content": "Monday: Chest, Tuesday: Back, Wednesday: Legs, etc.",
+        "created_at": "2024-11-09T09:00:00Z",
+        "updated_at": "2024-11-09T10:00:00Z",
+        "tags": ["personal", "fitness"],
+        "is_archived": false
+      },
+      {
+        "id": "5",
+        "title": "Travel Plans",
+        "content": "Flight to Paris booked for January, need to plan itinerary.",
+        "created_at": "2024-11-08T16:00:00Z",
+        "updated_at": "2024-11-08T17:00:00Z",
+        "tags": ["travel", "plans"],
+        "is_archived": false
+      },
+      {
+        "id": "6",
+        "title": "Client Feedback",
+        "content": "The client is happy with the current UI design but wants changes to the dashboard layout.",
+        "created_at": "2024-11-07T14:00:00Z",
+        "updated_at": "2024-11-07T15:00:00Z",
+        "tags": ["work", "feedback"],
+        "is_archived": false
+      },
+      {
+        "id": "7",
+        "title": "Book Recommendations",
+        "content": "The Silent Patient by Alex Michaelides, Educated by Tara Westover.",
+        "created_at": "2024-11-06T11:00:00Z",
+        "updated_at": "2024-11-06T12:00:00Z",
+        "tags": ["personal", "books"],
+        "is_archived": false
+      },
+      {
+        "id": "8",
+        "title": "Weekly Goals",
+        "content": "Finish the client report by Thursday, exercise for 30 minutes every day.",
+        "created_at": "2024-11-05T10:00:00Z",
+        "updated_at": "2024-11-05T11:00:00Z",
+        "tags": ["work", "goals"],
+        "is_archived": false
+      },
+      {
+        "id": "9",
+        "title": "Ideas for Blog Post",
+        "content": "Write about productivity tips for remote work.",
+        "created_at": "2024-11-04T09:00:00Z",
+        "updated_at": "2024-11-04T10:00:00Z",
+        "tags": ["work", "blog"],
+        "is_archived": false
+      },
+      {
+        "id": "10",
+        "title": "Weekend Plans",
+        "content": "Visit the art gallery and meet friends for coffee.",
+        "created_at": "2024-11-03T08:00:00Z",
+        "updated_at": "2024-11-03T09:00:00Z",
+        "tags": ["personal", "weekend"],
+        "is_archived": false
+      },
+      {
+        "id": "11",
+        "title": "Important Dates",
+        "content": "John's birthday on November 15, Meeting with Tom on November 18.",
+        "created_at": "2024-11-02T17:00:00Z",
+        "updated_at": "2024-11-02T18:00:00Z",
+        "tags": ["work", "personal"],
+        "is_archived": false
+      },
+      {
+        "id": "12",
+        "title": "Project Ideas",
+        "content": "Create an app for recipe sharing with social features.",
+        "created_at": "2024-11-01T16:00:00Z",
+        "updated_at": "2024-11-01T17:00:00Z",
+        "tags": ["work", "ideas"],
+        "is_archived": false
+      },
+      {
+        "id": "13",
+        "title": "Budget Plan",
+        "content": "Track monthly expenses, set savings goal of $500 each month.",
+        "created_at": "2024-10-31T14:00:00Z",
+        "updated_at": "2024-10-31T15:00:00Z",
+        "tags": ["personal", "finance"],
+        "is_archived": false
+      },
+      {
+        "id": "14",
+        "title": "Dinner Party Menu",
+        "content": "Appetizers: Cheese board, Main Course: Spaghetti, Dessert: Chocolate Cake.",
+        "created_at": "2024-10-30T12:00:00Z",
+        "updated_at": "2024-10-30T13:00:00Z",
+        "tags": ["personal", "food"],
+        "is_archived": false
+      },
+      {
+        "id": "15",
+        "title": "Tech News",
+        "content": "Apple releases new M3 chip, Tesla announces self-driving cars in major cities.",
+        "created_at": "2024-10-29T11:00:00Z",
+        "updated_at": "2024-10-29T12:00:00Z",
+        "tags": ["work", "tech"],
+        "is_archived": false
+      }
+    ]
+console.log(notedata);
 
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden font-handwritten dark">
-      <BackgroundAnimation />
+    <SidebarProvider>
+      <AppSidebar notes={notedata} setActiveNote={setActiveNote} activeNote={activeNote} />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[#151515]/80 to-[#151515]/20 backdrop-blur-sm z-10"></div>
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator orientation="vertical" className="mr-2 h-4" />
+          File Name
+        </header>
+        <div className="flex w-full">
+          <div className="flex-1 p-4">
+            <Editor activeNote={activeNote} /* Your editor props here */ />
+          </div>
 
-      <header className="container mx-auto px-10 py-6 flex justify-between items-center relative z-20">
-        <div className="flex items-center space-x-2">
-          <h1
-            id="liminal-title"
-            className="text-4xl font-normal text-white title tracking-[1px]"
-          >
-            Liminal
-          </h1>
-        </div>
-        <nav>
-          <ul className="flex space-x-4">
-            <li>
-              <a href="/about" className="text-sm hover:underline text-white">
-                About
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </header>
+          {/* Right Div */}
+          <div className="w-1/3 p-4 bg-zinc-900">
 
-      <main className="flex-grow flex items-center relative z-20">
-        <div className="container mx-auto px-4 py-20 text-center">
-          <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-8 text-white leading-tight"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            Your brain on its best day,
-            <br />
-            every day
-          </motion.h1>
-          <motion.div
-            className="space-y-6 mb-12"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <p className="text-2xl md:text-3xl text-white/80 font-normal">
-              Your thoughts, but better organized than your sock drawer
-            </p>
-          </motion.div>
-          <motion.form
-            onSubmit={handleSubmit}
-            className="flex flex-col items-center space-y-4"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            {!isSubmitted ? (
-              <>
-                <Input
-                  type="email"
-                  placeholder="Enter your email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
-                  required
-                  disabled={isSubmitting}
-                />
-                <Button
-                  type="submit"
-                  className="bg-white text-[#151515] hover:bg-white/90"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting
-                    ? "Joining..."
-                    : "→ Join the waitlist for early access"}
-                </Button>
-              </>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center space-y-4"
-              >
-                <div className="text-2xl text-white font-medium">
-                  Thanks for joining! 🎉
-                </div>
-                <p className="text-white/80">
-                  We&apos;ll keep you updated on our progress.
-                </p>
-              </motion.div>
-            )}
-          </motion.form>
-        </div>
-        <Analytics />
-      </main>
-
-      <footer className="py-8 relative z-20">
-        <div className="container mx-auto px-4">
-          <div className="flex justify-center items-center">
-            <span className="text-sm text-white/80"> </span>
           </div>
         </div>
-      </footer>
-    </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
 
