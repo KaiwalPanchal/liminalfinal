@@ -26,7 +26,7 @@ import Editor from "@/components/editor";
 import sampleNotes from "../sample-notes.json"
 import { uuid } from 'uuidv4';
 import { Check } from "lucide-react";
-import { addNote, getAllNotes } from "@/lib/firebase";
+import { addNote, getAllNotes, updateTitle } from "@/lib/firebase";
 
 interface Note {
   id?: string;
@@ -99,7 +99,7 @@ export default function Component() {
               setNotes(updatedNotes)
               setActiveNote({ ...activeNote, title: e.target.value })
             }} value={activeNote?.title} type="text" placeholder="Update your title" />
-            <Button onClick={() => setUpdatingTitle(false)}><Check /></Button>
+            <Button onClick={() => {setUpdatingTitle(false); updateTitle(activeNote?.id, activeNote?.title)}}><Check /></Button>
           </div>}
         </header>
         <div className="flex w-full h-full">

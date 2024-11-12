@@ -75,3 +75,23 @@ export const getAllNotes = async () => {
   
   return querySnapshot.docs.map((doc) => doc.data());
 }
+
+export const updateTitle = async (noteId: string, title: string) => {
+  console.log(noteId, title);
+  
+  const noteRef = collection(db, "notes");
+  const noteQuery = query(noteRef, where("id", "==", noteId));
+  const querySnapshot = await getDocs(noteQuery);
+  
+  if (!querySnapshot.empty) {
+    const noteDoc = querySnapshot.docs[0];
+    const updateObject = {
+      title: title,
+      updated_at: serverTimestamp() // Using serverTimestamp() is preferred over new Date().toString()
+    };
+    await updateDoc(noteDoc.ref, updateObject);
+    return noteDoc.ref;
+  } else {
+    throw new Error("Note not found");
+  }
+}
