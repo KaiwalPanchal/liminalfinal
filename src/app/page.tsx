@@ -23,8 +23,10 @@ import {
 } from "@/components/ui/sidebar"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // Import Collapsible from shadcn
 import Editor from "@/components/editor";
-import sampleNotes from "../sample-notes.json" 
+import sampleNotes from "../sample-notes.json"
 import { uuid } from 'uuidv4';
+import { Check } from "lucide-react";
+import { addNote, getAllNotes } from "@/lib/firebase";
 
 interface Note {
   id?: string;
@@ -38,29 +40,44 @@ interface Note {
 
 
 export default function Component() {
-  const noteData = sampleNotes.length ? sampleNotes.reverse() : [{ content: {}, title: "Untitled", created_at: new Date().toString() , id: uuid() }];
-  const [notes, setNotes] = useState<Note[]>(noteData);
-  const [activeNote, setActiveNote] = useState<Note>(noteData[0]);
+  const [notes, setNotes] = useState<any[]>([]);
+  const [activeNote, setActiveNote] = useState<any>(null);
+  const [updatingTitle, setUpdatingTitle] = useState(false)
 
   const handleUpdateContent = (noteId: string, newContent: string) => {
-    const updatedNotes = notes.map(note => 
-      note.id === noteId 
+    const updatedNotes = notes.map(note =>
+      note.id === noteId
         ? { ...note, content: newContent }
         : note
     );
-    
+
     setNotes(updatedNotes);
-    
-    // Save to local storage as backup
-    localStorage.setItem('notes', JSON.stringify(updatedNotes));
   };
 
   const addNewNote = () => {
-    const newNote : Note = { content: {}, title: "Untitled", created_at: new Date().toString() , id: uuid() }
-    const updatedNotes = [newNote,...notes];
-
+    const newNote: Note = { content: {}, title: "Untitled", created_at: new Date().toString(), id: uuid(), updated_at: new Date().toString()};
+    const updatedNotes = [newNote, ...notes];
     setNotes(updatedNotes);
     setActiveNote(newNote);
+    addNote(newNote);
+  }
+
+  useEffect(() => {
+      initNotes();
+  }, []);
+
+  const initNotes = async () => {
+    const notedata = await getAllNotes()
+    console.log(notedata);
+    
+    if (notedata.length < 2) {
+      console.log("no notes found");
+      
+      addNewNote()
+      } else {
+      setNotes(notedata)
+      setActiveNote(notedata[0])
+    }
   }
 
   return (
@@ -71,11 +88,23 @@ export default function Component() {
         <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           <Separator orientation="vertical" className="mr-2 h-4" />
-          {activeNote?.title}
+          {!updatingTitle ? <p onClick={() => setUpdatingTitle(true)}>{activeNote?.title}</p> : <div className="flex w-full max-w-sm items-center space-x-2">
+            <Input onChange={(e) => {
+              const updatedNotes = notes
+              updatedNotes.forEach((note) => {
+                if (note.id === activeNote?.id) {
+                  note.title = e.target.value
+                }
+              })
+              setNotes(updatedNotes)
+              setActiveNote({ ...activeNote, title: e.target.value })
+            }} value={activeNote?.title} type="text" placeholder="Update your title" />
+            <Button onClick={() => setUpdatingTitle(false)}><Check /></Button>
+          </div>}
         </header>
         <div className="flex w-full h-full">
           <div className="flex-1 p-4">
-            <Editor key={activeNote?.id} activeNote={activeNote} onUpdateContent={handleUpdateContent} />
+            {activeNote && <Editor key={activeNote?.id} activeNote={activeNote} onUpdateContent={handleUpdateContent} />}
           </div>
 
           {/* Right Div */}

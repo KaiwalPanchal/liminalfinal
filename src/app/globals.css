@@ -877,3 +877,21 @@ i.justify-align {
 .yoo-action-menu-bg-\[\#FFFFFF\]{
   --tw-bg-opacity: 0 !important;
 }
+
+.yoopta-toolbar-root{
+  background-color: #222 !important;
+  border-color: #222 !important;
+}
+
+.yoopta-toolbar-item-mark:hover{
+  --tw-bg-opacity: 0.1 !important;
+}
+
+.yoo-toolbar-shadow-md {
+background-color: #222 !important;
+border-color: #222 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}

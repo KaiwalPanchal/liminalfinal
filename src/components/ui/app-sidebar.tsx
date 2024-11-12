@@ -34,7 +34,7 @@ export function AppSidebar({ ...props }: any) {
         <Button onClick={() => props.addNewNote()} className="mx-4 my-2">
           <Plus /> New Note
         </Button>
-        <SearchForm />
+        {/* <SearchForm /> */}
       </SidebarHeader>
       <SidebarContent className="gap-0">
         {/* We create a collapsible SidebarGroup for each parent. */}

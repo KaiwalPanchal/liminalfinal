@@ -20,26 +20,31 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+// const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 export const addNote = async (note: any) => {
   // Add this to firebase and then also update the id of the document
   const noteRef = collection(db, "notes");
 
-  const addedNote = await addDoc(noteRef, {
-    ...note,
-    created_at: serverTimestamp(),
-    updated_at: serverTimestamp(),
-  });
+  const addedNote = await addDoc(noteRef, note);
 
   return addedNote
 }
 
+const cleanUndefinedFields = (obj: any) => {
+  return Object.fromEntries(Object.entries(obj).filter(([_, v]) => v !== undefined));
+};
+
+
+
 export const updateNote = async (noteId: string, updatedContent: any) => {
+  if (typeof updatedContent !== 'object' || updatedContent === null) {
+    throw new Error("Invalid data: updatedContent should be a non-null object");
+  }
   // Reference the "notes" collection
   const noteRef = collection(db, "notes");
-
+  
   // Query to find the document with the specified custom "id" field
   const noteQuery = query(noteRef, where("id", "==", noteId));
   const querySnapshot = await getDocs(noteQuery);
@@ -47,15 +52,26 @@ export const updateNote = async (noteId: string, updatedContent: any) => {
   if (!querySnapshot.empty) {
     // Assuming 'id' is unique, retrieve the first document that matches
     const noteDoc = querySnapshot.docs[0];
-
-    // Update the content and updated_at timestamp
-    await updateDoc(noteDoc.ref, {
+    // Create the update object with cleaned content
+    console.log(updatedContent);
+    
+    const updateObject = {
       content: updatedContent,
-      updated_at: serverTimestamp(),
-    });
+      updated_at: serverTimestamp() // Using serverTimestamp() is preferred over new Date().toString()
+    };
 
+    // Update the document
+    await updateDoc(noteDoc.ref, updateObject);
     return noteDoc.ref;
   } else {
     throw new Error("Note not found");
   }
 };
+
+export const getAllNotes = async () => {
+  const noteRef = collection(db, "notes");
+  const querySnapshot = await getDocs(noteRef);
+  console.log(querySnapshot.docs[0].data());
+  
+  return querySnapshot.docs.map((doc) => doc.data());
+}

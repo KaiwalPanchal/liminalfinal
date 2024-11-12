@@ -29,6 +29,7 @@ import YooptaEditor, {
   
 //   import { uploadToCloudinary } from '@/utils/cloudinary';
   import { useEffect, useMemo, useRef, useState } from 'react';
+import { updateNote } from '@/lib/firebase';
 //   import { WITH_BASIC_INIT_VALUE } from './initValue';
   
   const plugins = [
@@ -137,6 +138,7 @@ function WithBaseFullSetup({...props}: any) {
   const onChange = (newValue: YooptaContentValue, options?: YooptaOnChangeOptions) => {
     setValue(newValue);
     props.onUpdateContent(props.activeNote.id, newValue);
+    updateNote(props.activeNote.id, newValue);
   };
   
 
