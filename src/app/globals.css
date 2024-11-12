@@ -841,3 +841,15 @@ i.justify-align {
   background-image: url(images/icons/justify.svg);
 }
 
+.yoopta-action-menu-list-content{
+  background-color: #222 !important;
+  border-color: #333 !important ;
+}
+
+.yoopta-block-actions-drag{
+  color: #f1f1f1 !important;
+}
+
+.yoopta-block-actions-plus{
+  color: #f1f1f1 !important;
+}
