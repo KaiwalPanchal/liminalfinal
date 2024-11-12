@@ -33,16 +33,38 @@ import ExampleTheme from "@/themes/theme";
 
 /* Lexical Texts */
 import { textDailyStandup } from "./text-daily-standup";
-import { $createParagraphNode, $createTextNode, $getRoot, $getSelection, EditorState } from "lexical";
+import { $createParagraphNode, $createTextNode, $getRoot, $getSelection, EditorState, LexicalEditor } from "lexical";
+import { useLexicalComposerContext } from "@lexical/react/LexicalComposerContext";
 
 function Placeholder() {
     return <div className="editor-placeholder">Enter some rich text...</div>;
 }
 
+function ContentUpdatePlugin({ content }: { content: string }) {
+    const [editor] = useLexicalComposerContext();
+  
+    useEffect(() => {
+      if (!content) return;
+  
+      editor.update(() => {
+        const root = $getRoot();
+        // Clear existing content
+        root.clear();
+        // Create new paragraph with content
+        const paragraph = $createParagraphNode();
+        const text = $createTextNode(content);
+        paragraph.append(text);
+        root.append(paragraph);
+      });
+    }, [content, editor]);
+  
+    return null;
+  }
+
 const editorConfig = {
     // The editor theme
     theme: ExampleTheme,
-    namespace: "daily-standup-editor",
+    namespace: "liminal-editor",
     // Handling of errors during update
     onError(error: unknown) {
         throw error;
@@ -73,20 +95,31 @@ export function Editor({...props}: any): JSX.Element | null | any {
     }, [])
 
     if (!isMounted) return null
+    console.log(props.activeNote.content);
 
-
+    const updatedConfig = {
+        ...editorConfig,
+        editorState: (editor: LexicalEditor) => {
+          editor.update(() => {
+            const root = $getRoot();
+            const paragraph = $createParagraphNode();
+            const text = $createTextNode(props.activeNote.content);
+            paragraph.append(text);
+            root.append(paragraph);
+          });
+        }
+      };
     
-
+      console.log(props);
+      
     return (
-        <LexicalComposer initialConfig={editorConfig}>
+        <LexicalComposer initialConfig={updatedConfig}>
             <div className="editor-container">
                 <ToolbarPlugin />
                 <div className="editor-inner">
                     <RichTextPlugin
                         contentEditable={<ContentEditable className="editor-input" />}
-                        placeholder={<Placeholder />}
                         ErrorBoundary={LexicalErrorBoundary}
-                        
                     />
                     <ListPlugin />
                     <HistoryPlugin />
@@ -96,6 +129,7 @@ export function Editor({...props}: any): JSX.Element | null | any {
                     <TabIndentationPlugin />
                     <AutoLinkPlugin />
                     <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+                    <ContentUpdatePlugin content={props.activeNote?.content || ''} />
                     {/* <TreeViewPlugin /> */}
                 </div>
             </div>
