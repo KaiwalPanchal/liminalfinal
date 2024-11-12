@@ -25,32 +25,32 @@ export function AppSidebar({ ...props }: any) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-      <h1
-            id="liminal-title"
-            className="text-4xl text-white font-normaltitle tracking-[1px] m-2"
-          >
-            Liminal
-          </h1>
-          <Button className="mx-4 my-2">
-      <Plus /> New Note
-    </Button>
+        <h1
+          id="liminal-title"
+          className="text-4xl text-white font-normaltitle tracking-[1px] m-2"
+        >
+          Liminal
+        </h1>
+        <Button onClick={() => props.addNewNote()} className="mx-4 my-2">
+          <Plus /> New Note
+        </Button>
         <SearchForm />
       </SidebarHeader>
       <SidebarContent className="gap-0">
         {/* We create a collapsible SidebarGroup for each parent. */}
         <SidebarGroup>
-                <SidebarGroupContent>
-                  <SidebarMenu> 
-                    {props.notes.map((note: any) => (
-                       <SidebarMenuItem style={{cursor: "pointer"}} onClick={() => props.setActiveNote(note)} key={note.id}>
-                       <SidebarMenuButton style={{backgroundColor: props.activeNote.id === note.id ? "#2b2b2b" : "transparent"}} asChild>
-                         <a>{note.title}</a>
-                       </SidebarMenuButton>
-                     </SidebarMenuItem>
-                    ))} 
-                  </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {props.notes.reverse().map((note: any) => (
+                <SidebarMenuItem style={{ cursor: "pointer" }} onClick={() => props.setActiveNote(note)} key={note.id}>
+                  <SidebarMenuButton style={{ backgroundColor: props.activeNote.id === note.id ? "#2b2b2b" : "transparent" }} asChild>
+                    <a>{note.title}</a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         {/* {data.navMain.map((item:any) => (
           <Collapsible
             key={item.title}

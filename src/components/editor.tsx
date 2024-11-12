@@ -120,6 +120,7 @@ import YooptaEditor, {
  // In WithBaseFullSetup (editor component)
 function WithBaseFullSetup({...props}: any) {
   const [value, setValue] = useState<YooptaContentValue>(props.activeNote.content);
+  const [debounce, setDebounce] = useState<boolean>(true);
   const editor = useMemo(() => createYooptaEditor(), []);
   const { setTheme, theme } = useTheme();
   const selectionRef = useRef(null);
@@ -135,8 +136,9 @@ function WithBaseFullSetup({...props}: any) {
 
   const onChange = (newValue: YooptaContentValue, options?: YooptaOnChangeOptions) => {
     setValue(newValue);
-    props.onUpdateContent(newValue);
+    props.onUpdateContent(props.activeNote.id, newValue);
   };
+  
 
   return (
     <div className='w-full h-full p-3 px-20' ref={selectionRef}>

@@ -1,22 +1,61 @@
+// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
+import { getAnalytics } from "firebase/analytics";
+import { addDoc, collection, getDoc, getDocs, getFirestore, query, serverTimestamp, updateDoc, where } from "firebase/firestore";
+import { randomUUID } from "crypto";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyA8aF9sDGUGtapusDjDDZeVGomA-d3EUrk",
-  authDomain: "email-signup-f921d.firebaseapp.com",
-  projectId: "email-signup-f921d",
-  storageBucket: "email-signup-f921d.firebasestorage.app",
-  messagingSenderId: "63913609652",
-  appId: "1:63913609652:web:2270c2a38f93c62fb38ae1",
-  measurementId: "G-LB8VZMEZ0D"
+  apiKey: "AIzaSyDVAIbtBvEuEyyKHj-tyt7LCxGQRHWNqqs",
+  authDomain: "liminal-notes-sample.firebaseapp.com",
+  projectId: "liminal-notes-sample",
+  storageBucket: "liminal-notes-sample.firebasestorage.app",
+  messagingSenderId: "77724716159",
+  appId: "1:77724716159:web:cf4b74a38b3706134a834a",
+  measurementId: "G-2FD5CY9TH5"
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
-export { db };
+export const addNote = async (note: any) => {
+  // Add this to firebase and then also update the id of the document
+  const noteRef = collection(db, "notes");
+
+  const addedNote = await addDoc(noteRef, {
+    ...note,
+    created_at: serverTimestamp(),
+    updated_at: serverTimestamp(),
+  });
+
+  return addedNote
+}
+
+export const updateNote = async (noteId: string, updatedContent: any) => {
+  // Reference the "notes" collection
+  const noteRef = collection(db, "notes");
+
+  // Query to find the document with the specified custom "id" field
+  const noteQuery = query(noteRef, where("id", "==", noteId));
+  const querySnapshot = await getDocs(noteQuery);
+
+  if (!querySnapshot.empty) {
+    // Assuming 'id' is unique, retrieve the first document that matches
+    const noteDoc = querySnapshot.docs[0];
+
+    // Update the content and updated_at timestamp
+    await updateDoc(noteDoc.ref, {
+      content: updatedContent,
+      updated_at: serverTimestamp(),
+    });
+
+    return noteDoc.ref;
+  } else {
+    throw new Error("Note not found");
+  }
+};

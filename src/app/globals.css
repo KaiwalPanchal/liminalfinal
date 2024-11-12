@@ -853,3 +853,27 @@ i.justify-align {
 .yoopta-block-actions-plus{
   color: #f1f1f1 !important;
 }
+
+.yoo-action-menu-bg-\[\#FFFFFF\]{
+  background-color: none;
+}
+
+.aria-selected\:yoo-action-menu-bg-\[\#f0f0f0\][aria-selected=true]{
+  --tw-bg-opacity: 0.1 !important;
+}
+
+.yoopta-block-options-menu-content{
+  background-color: #222 !important;
+  border-color: #222 !important ;
+}
+.yoopta-extended-block-actions{
+  background-color: #222 !important;
+}
+
+.hover\:yoo-action-menu-bg-\[\#f4f4f5\]:hover{
+  --tw-bg-opacity: 0.1 !important;
+}
+
+.yoo-action-menu-bg-\[\#FFFFFF\]{
+  --tw-bg-opacity: 0 !important;
+}
