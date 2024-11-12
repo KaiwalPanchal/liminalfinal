@@ -33,7 +33,8 @@ import ExampleTheme from "@/themes/theme";
 
 /* Lexical Texts */
 import { textDailyStandup } from "./text-daily-standup";
-import { $createParagraphNode, $createTextNode, $getRoot, $getSelection, EditorState } from "lexical";
+import { $createParagraphNode, $createTextNode, $getRoot, $getSelection } from "lexical";
+import { EditorState } from "@lexical/react";
 
 function Placeholder() {
     return <div className="editor-placeholder">Enter some rich text...</div>;
@@ -75,10 +76,15 @@ export function Editor({...props}: any): JSX.Element | null | any {
     if (!isMounted) return null
 
 
-    
+     // Convert the notes prop to Lexical nodes
+     const initialEditorState:any = EditorState.createEmpty();
+     const root = $getRoot();
+     const paragraph = $createParagraphNode();
+     paragraph.append($createTextNode(props.activeNote.text)); // Append the text passed as props
+     root.append(paragraph);
 
     return (
-        <LexicalComposer initialConfig={editorConfig}>
+        <LexicalComposer initialConfig={editorConfig} initialEditorState={initialEditorState}>
             <div className="editor-container">
                 <ToolbarPlugin />
                 <div className="editor-inner">
