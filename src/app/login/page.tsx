@@ -7,29 +7,36 @@ import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
 import { addToWaitList } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { redirect } from "next/navigation";
+// import { toast } from "@/hooks/use-toast";
 
 export default function Component() {
   const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+    if (storedUser) {
+    //   window.location.href = "/";
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
+    console.log(e, email, password);
+    
     try {
-      await addToWaitList(email);
-      setEmail("");
-      setIsSubmitted(true);
-      console.log("Email successfully added to waitlist");
+     if (email === "YCombinator" && password === "Admin@123") {
+        localStorage.setItem("user", email);
+        window.location.href = "/";
+     }
+     else{
+        alert("Wrong email or password");
+     }
 
-      // Optional: Reset the success message after 5 seconds
-      // setTimeout(() => setIsSubmitted(false), 5000);
     } catch (error) {
-      console.error("Error adding email to waitlist:", error);
-      setIsSubmitted(false);
-    } finally {
-      setIsSubmitting(false);
+      console.error("Error loggin:", error);
     }
   };
 
@@ -56,8 +63,8 @@ export default function Component() {
               </a>
             </li>
             <li>
-              <a href="/login" className="text-sm hover:underline text-white">
-                Login
+              <a href="/info" className="text-sm hover:underline text-white">
+                Info
               </a>
             </li>
           </ul>
@@ -66,26 +73,12 @@ export default function Component() {
 
       <main className="flex-grow flex items-center relative z-20">
         <div className="container mx-auto px-4 py-20 text-center">
-          <motion.h1
-            className="text-5xl md:text-7xl font-bold mb-8 text-white leading-tight"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+        <h1
+            id="liminal-title"
+            className="text-4xl font-normal text-white title tracking-[1px] my-5"
           >
-            Your brain on its best day,
-            <br />
-            every day
-          </motion.h1>
-          <motion.div
-            className="space-y-6 mb-12"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
-            <p className="text-2xl md:text-3xl text-white/80 font-normal">
-              Your thoughts, but better organized than your sock drawer
-            </p>
-          </motion.div>
+            Login
+          </h1>
           <motion.form
             onSubmit={handleSubmit}
             className="flex flex-col items-center space-y-4"
@@ -93,42 +86,30 @@ export default function Component() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-            {!isSubmitted ? (
               <>
                 <Input
-                  type="email"
-                  placeholder="Enter your email"
+                  type="text"
+                  placeholder="Enter your ID"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
                   required
-                  disabled={isSubmitting}
+                />
+                <Input
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
+                  required
                 />
                 <Button
                   type="submit"
                   className="bg-white text-[#151515] hover:bg-white/90"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting
-                    ? "Joining..."
-                    : "→ Join the waitlist for early access"}
+                >→ Submit
                 </Button>
               </>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center space-y-4"
-              >
-                <div className="text-2xl text-white font-medium">
-                  Thanks for joining! 🎉
-                </div>
-                <p className="text-white/80">
-                  We&apos;ll keep you updated on our progress.
-                </p>
-              </motion.div>
-            )}
+            
           </motion.form>
         </div>
         <Analytics />

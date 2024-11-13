@@ -20,10 +20,15 @@ export default function Component() {
           </h1>
         </div>
         <nav>
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-10">
             <li>
               <a href="/about" className="text-sm hover:underline text-white">
                 About
+              </a>
+            </li>
+            <li>
+              <a href="/login" className="text-sm hover:underline text-white">
+                Login
               </a>
             </li>
           </ul>

@@ -104,4 +104,14 @@ export const updateTitle = async (noteId: string, title: string) => {
   } else {
     throw new Error("Note not found");
   }
+
 };
+
+export const addToWaitList = async (email: string) => {
+  const waitlistRef = collection(db, "waitlist");
+  await addDoc(waitlistRef, {
+    email: email,
+    timestamp: serverTimestamp(),
+    status: "pending",
+  });
+}

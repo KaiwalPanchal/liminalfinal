@@ -28,6 +28,7 @@ import { uuid } from 'uuidv4';
 import { Check } from "lucide-react";
 import { addNote, getAllNotes, updateTitle } from "@/lib/firebase";
 import Graph from "@/components/graph";
+import { redirect } from "next/navigation";
 
 interface Note {
   id?: string;
@@ -77,7 +78,14 @@ export default function Component() {
   }
 
   useEffect(() => {
+    const user = localStorage.getItem("user") || "";
+    if (user === "YCombinator") {
       initNotes();
+    }
+    else {
+      redirect('/login')
+    }
+      
   }, []);
 
   const initNotes = async () => {
