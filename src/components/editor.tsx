@@ -1,110 +1,163 @@
-'use client';
-
-import { useEffect, useState } from "react";
-
-/* Lexical Design System */
-import { HeadingNode, QuoteNode } from "@lexical/rich-text";
-import { TableCellNode, TableNode, TableRowNode } from "@lexical/table";
-import { ListItemNode, ListNode } from "@lexical/list";
-import { CodeHighlightNode, CodeNode } from "@lexical/code";
-import { AutoLinkNode, LinkNode } from "@lexical/link";
-import { TRANSFORMERS } from "@lexical/markdown";
-
-/* Lexical Plugins Local */
-import TreeViewPlugin from "@/plugins/TreeViewPlugin";
-import ToolbarPlugin from "@/plugins/ToolbarPlugin";
-import AutoLinkPlugin from "@/plugins/AutoLinkPlugin";
-import CodeHighlightPlugin from "@/plugins/CodeHighlightPlugin";
-
-/* Lexical Plugins Remote */
-import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
-import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
-import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
-import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
-import { ListPlugin } from "@lexical/react/LexicalListPlugin";
-import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin";
-import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
-
-/* Lexical Others */
-import { LexicalComposer } from "@lexical/react/LexicalComposer";
-import { ContentEditable } from "@lexical/react/LexicalContentEditable";
-import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
-import ExampleTheme from "@/themes/theme";
-
-/* Lexical Texts */
-import { textDailyStandup } from "./text-daily-standup";
-import { $createParagraphNode, $createTextNode, $getRoot, $getSelection } from "lexical";
-import { EditorState } from "@lexical/react";
-
-function Placeholder() {
-    return <div className="editor-placeholder">Enter some rich text...</div>;
-}
-
-const editorConfig = {
-    // The editor theme
-    theme: ExampleTheme,
-    namespace: "daily-standup-editor",
-    // Handling of errors during update
-    onError(error: unknown) {
-        throw error;
-    },
-    // Any custom nodes go here
-    nodes: [
-        HeadingNode,
-        ListNode,
-        ListItemNode,
-        QuoteNode,
-        CodeNode,
-        CodeHighlightNode,
-        TableNode,
-        TableCellNode,
-        TableRowNode,
-        AutoLinkNode,
-        LinkNode
-    ],
-};
-
-export function Editor({...props}: any): JSX.Element | null | any {
-
-    const [isMounted, setIsMounted] = useState(false)
+import YooptaEditor, {
+    createYooptaEditor,
+    Elements,
+    Blocks,
+    useYooptaEditor,
+    YooptaContentValue,
+    YooptaOnChangeOptions,
+  } from '@yoopta/editor';
+  
+  import Paragraph from '@yoopta/paragraph';
+  import Blockquote from '@yoopta/blockquote';
+  import Embed from '@yoopta/embed';
+  import Image from '@yoopta/image';
+  import Link from '@yoopta/link';
+  import Callout from '@yoopta/callout';
+  import Video from '@yoopta/video';
+  import File from '@yoopta/file';
+  import Accordion from '@yoopta/accordion';
+  import { NumberedList, BulletedList, TodoList } from '@yoopta/lists';
+  import { Bold, Italic, CodeMark, Underline, Strike, Highlight } from '@yoopta/marks';
+  import { HeadingOne, HeadingThree, HeadingTwo } from '@yoopta/headings';
+  import Code from '@yoopta/code';
+  import Table from '@yoopta/table';
+  import Divider from '@yoopta/divider';
+  import ActionMenuList, { DefaultActionMenuRender } from '@yoopta/action-menu-list';
+  import Toolbar, { DefaultToolbarRender } from '@yoopta/toolbar';
+  import LinkTool, { DefaultLinkToolRender } from '@yoopta/link-tool';
+  import { useTheme } from 'next-themes';
+  
+//   import { uploadToCloudinary } from '@/utils/cloudinary';
+  import { useEffect, useMemo, useRef, useState } from 'react';
+import { updateNote } from '@/lib/firebase';
+//   import { WITH_BASIC_INIT_VALUE } from './initValue';
+  
+  const plugins = [
+    Paragraph,
+    Table,
+    Divider.extend({
+      elementProps: {
+        divider: (props) => ({
+          ...props,
+          color: '#007aff',
+        }),
+      },
+    }),
+    Accordion,
+    HeadingOne,
+    HeadingTwo,
+    HeadingThree,
+    Blockquote,
+    Callout,
+    NumberedList,
+    BulletedList,
+    TodoList,
+    Code,
+    Link,
+    Embed
+    // Image.extend({
+    //   options: {
+    //     async onUpload(file) {
+    //       const data = await uploadToCloudinary(file, 'image');
+  
+    //       return {
+    //         src: data.secure_url,
+    //         alt: 'cloudinary',
+    //         sizes: {
+    //           width: data.width,
+    //           height: data.height,
+    //         },
+    //       };
+    //     },
+    //   },
+    // }),
+    // Video.extend({
+    //   options: {
+    //     onUpload: async (file) => {
+    //       const data = await uploadToCloudinary(file, 'video');
+    //       return {
+    //         src: data.secure_url,
+    //         alt: 'cloudinary',
+    //         sizes: {
+    //           width: data.width,
+    //           height: data.height,
+    //         },
+    //       };
+    //     },
+    //     onUploadPoster: async (file) => {
+    //       const image = await uploadToCloudinary(file, 'image');
+    //       return image.secure_url;
+    //     },
+    //   },
+    // }),
+    // File.extend({
+    //   options: {
+    //     onUpload: async (file) => {
+    //       const response = await uploadToCloudinary(file, 'auto');
+    //       return { src: response.secure_url, format: response.format, name: response.name, size: response.bytes };
+    //     },
+    //   },
+    // }),
+  ];
 
   
-    useEffect(() => {
-        setIsMounted(true);
-    }, [])
+  const TOOLS = {
+    ActionMenu: {
+      render: DefaultActionMenuRender,
+      tool: ActionMenuList,
+    },
+    Toolbar: {
+      render: DefaultToolbarRender,
+      tool: Toolbar,
+    },
+    LinkTool: {
+      render: DefaultLinkToolRender,
+      tool: LinkTool,
+    },
+  };
+  
+  const MARKS = [Bold, Italic, CodeMark, Underline, Strike, Highlight];
+  
+ // In WithBaseFullSetup (editor component)
+function WithBaseFullSetup({...props}: any) {
+  const [value, setValue] = useState<YooptaContentValue>(props.activeNote.content);
+  const [debounce, setDebounce] = useState<boolean>(true);
+  const editor = useMemo(() => createYooptaEditor(), []);
+  const { setTheme, theme } = useTheme();
+  const selectionRef = useRef(null);
 
-    if (!isMounted) return null
+  useEffect(() => {
+    setTheme('dark');
+  }, [setTheme]);
 
+  // Re-initialize `value` whenever `props.activeNote.content` changes
+  useEffect(() => {
+    setValue(props.activeNote.content);
+  }, [props.activeNote.content]);
 
-     // Convert the notes prop to Lexical nodes
-     const initialEditorState:any = EditorState.createEmpty();
-     const root = $getRoot();
-     const paragraph = $createParagraphNode();
-     paragraph.append($createTextNode(props.activeNote.text)); // Append the text passed as props
-     root.append(paragraph);
+  const onChange = (newValue: YooptaContentValue, options?: YooptaOnChangeOptions) => {
+    setValue(newValue);
+    props.onUpdateContent(props.activeNote.id, newValue);
+    updateNote(props.activeNote.id, newValue);
+  };
+  
 
-    return (
-        <LexicalComposer initialConfig={editorConfig} initialEditorState={initialEditorState}>
-            <div className="editor-container">
-                <ToolbarPlugin />
-                <div className="editor-inner">
-                    <RichTextPlugin
-                        contentEditable={<ContentEditable className="editor-input" />}
-                        placeholder={<Placeholder />}
-                        ErrorBoundary={LexicalErrorBoundary}
-                        
-                    />
-                    <ListPlugin />
-                    <HistoryPlugin />
-                    <AutoFocusPlugin />
-                    <CodeHighlightPlugin />
-                    <LinkPlugin />
-                    <TabIndentationPlugin />
-                    <AutoLinkPlugin />
-                    <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
-                    {/* <TreeViewPlugin /> */}
-                </div>
-            </div>
-        </LexicalComposer>
-    );
+  return (
+    <div className='w-full h-full p-3 px-20' ref={selectionRef}>
+      <YooptaEditor
+        placeholder='Type "/" for commands'
+        editor={editor}
+        plugins={plugins}
+        tools={TOOLS}
+        marks={MARKS}
+        selectionBoxRoot={selectionRef}
+        value={value}
+        onChange={onChange}
+        autoFocus
+      />
+    </div>
+  );
 }
+
+  
+  export default WithBaseFullSetup;

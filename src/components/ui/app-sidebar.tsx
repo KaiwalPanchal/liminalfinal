@@ -1,5 +1,5 @@
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, Plus } from "lucide-react"
 import {
   Collapsible,
   CollapsibleContent,
@@ -18,39 +18,39 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import { SearchForm } from "./search-form"
+import { Button } from "./button"
 
 
 export function AppSidebar({ ...props }: any) {
-  // const [data, setData] = React.useState()
-console.log(props);
-
-  
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-      <h1
-            id="liminal-title"
-            className="text-4xl text-white font-normaltitle tracking-[1px] m-2"
-          >
-            Liminal
-          </h1>
-        <SearchForm />
+        <h1
+          id="liminal-title"
+          className="text-4xl text-white font-normaltitle tracking-[1px] m-2"
+        >
+          Liminal
+        </h1>
+        <Button onClick={() => props.addNewNote()} className="mx-4 my-2">
+          <Plus /> New Note
+        </Button>
+        {/* <SearchForm /> */}
       </SidebarHeader>
       <SidebarContent className="gap-0">
         {/* We create a collapsible SidebarGroup for each parent. */}
         <SidebarGroup>
-                <SidebarGroupContent>
-                  <SidebarMenu> 
-                    {props.notes.map((note: any) => (
-                       <SidebarMenuItem onClick={() => props.setActiveNote(note)} key={note.id}>
-                       <SidebarMenuButton asChild>
-                         <a>{note.title}</a>
-                       </SidebarMenuButton>
-                     </SidebarMenuItem>
-                    ))} 
-                  </SidebarMenu>
-                </SidebarGroupContent>
-            </SidebarGroup>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {props.notes.reverse().map((note: any) => (
+                <SidebarMenuItem style={{ cursor: "pointer" }} onClick={() => props.setActiveNote(note)} key={note.id}>
+                  <SidebarMenuButton style={{ backgroundColor: props.activeNote.id === note.id ? "#2b2b2b" : "transparent" }} asChild>
+                    <a>{note.title}</a>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
         {/* {data.navMain.map((item:any) => (
           <Collapsible
             key={item.title}

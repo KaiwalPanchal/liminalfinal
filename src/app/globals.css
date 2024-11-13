@@ -151,12 +151,11 @@ h1 {
   min-height: 78vh;
   resize: none;
   font-size: 15px;
-  caret-color: rgb(5, 5, 5);
   position: relative;
   tab-size: 1;
   outline: 0;
   padding: 15px 10px;
-  caret-color: #444;
+  caret-color: #f1f1f1;
 }
 
 .editor-placeholder {
@@ -197,6 +196,7 @@ h1 {
   padding: 1px 0.25rem;
   font-family: Menlo, Consolas, Monaco, monospace;
   font-size: 94%;
+  color: #f1f1f1;
 }
 
 .editor-link {
@@ -221,7 +221,8 @@ h1 {
 }
 
 .editor-code {
-  background-color: rgb(240, 242, 245);
+  background-color: #333;
+  color: #f1f1f1;
   font-family: Menlo, Consolas, Monaco, monospace;
   display: block;
   padding: 8px 8px 8px 52px;
@@ -239,12 +240,12 @@ h1 {
 .editor-code:before {
   content: attr(data-gutter);
   position: absolute;
-  background-color: #eee;
+  background-color: #333;
   left: 0;
   top: 0;
   border-right: 1px solid #ccc;
   padding: 8px;
-  color: #777;
+  color: #f3f3f3;
   white-space: pre-wrap;
   text-align: right;
   min-width: 25px;
@@ -257,11 +258,11 @@ h1 {
   font-size: 10px;
   text-transform: uppercase;
   position: absolute;
-  color: rgba(0, 0, 0, 0.5);
+  color: #f1f1f1;
 }
 
 .editor-tokenComment {
-  color: slategray;
+  color: lightblue;
 }
 
 .editor-tokenPunctuation {
@@ -304,7 +305,7 @@ h1 {
 
 .editor-heading-h1 {
   font-size: 24px;
-  color: rgb(5, 5, 5);
+  color: #f1f1f1;
   font-weight: 400;
   margin: 0;
   margin-bottom: 12px;
@@ -313,7 +314,7 @@ h1 {
 
 .editor-heading-h2 {
   font-size: 15px;
-  color: rgb(101, 103, 107);
+  color: #f1f1f1;
   font-weight: 700;
   margin: 0;
   margin-top: 10px;
@@ -325,7 +326,7 @@ h1 {
   margin: 0;
   margin-left: 20px;
   font-size: 15px;
-  color: rgb(101, 103, 107);
+  color: #f1f1f1;
   border-left-color: rgb(206, 208, 212);
   border-left-width: 4px;
   border-left-style: solid;
@@ -424,11 +425,16 @@ pre::-webkit-scrollbar-thumb {
   background-color: rgba(150, 150, 150, 0.4);
 }
 
+.dropdown{
+  background-color: #333;
+  color: #f1f1f1;
+}
 
 .toolbar {
   display: flex;
   margin-bottom: 1px;
   background: #222;
+  color: #f1f1f1;
   padding: 4px;
   vertical-align: middle;
   border-top-left-radius: 8px;
@@ -530,6 +536,7 @@ pre::-webkit-scrollbar-thumb {
   margin-right: 8px;
   line-height: 16px;
   background-size: contain;
+
 }
 
 .toolbar i.chevron-down {
@@ -834,3 +841,57 @@ i.justify-align {
   background-image: url(images/icons/justify.svg);
 }
 
+.yoopta-action-menu-list-content{
+  background-color: #222 !important;
+  border-color: #333 !important ;
+}
+
+.yoopta-block-actions-drag{
+  color: #f1f1f1 !important;
+}
+
+.yoopta-block-actions-plus{
+  color: #f1f1f1 !important;
+}
+
+.yoo-action-menu-bg-\[\#FFFFFF\]{
+  background-color: none;
+}
+
+.aria-selected\:yoo-action-menu-bg-\[\#f0f0f0\][aria-selected=true]{
+  --tw-bg-opacity: 0.1 !important;
+}
+
+.yoopta-block-options-menu-content{
+  background-color: #222 !important;
+  border-color: #222 !important ;
+}
+.yoopta-extended-block-actions{
+  background-color: #222 !important;
+}
+
+.hover\:yoo-action-menu-bg-\[\#f4f4f5\]:hover{
+  --tw-bg-opacity: 0.1 !important;
+}
+
+.yoo-action-menu-bg-\[\#FFFFFF\]{
+  --tw-bg-opacity: 0 !important;
+}
+
+.yoopta-toolbar-root{
+  background-color: #222 !important;
+  border-color: #222 !important;
+}
+
+.yoopta-toolbar-item-mark:hover{
+  --tw-bg-opacity: 0.1 !important;
+}
+
+.yoo-toolbar-shadow-md {
+background-color: #222 !important;
+border-color: #222 !important;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: white;
+}
