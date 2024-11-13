@@ -43,10 +43,10 @@ export function AppSidebar({ ...props }: any) {
             <SidebarMenu>
               {props.notes.reverse().map((note: any) => (
                 <SidebarMenuItem style={{ cursor: "pointer" }} onClick={() => props.setActiveNote(note)} key={note.id}>
-                  <SidebarMenuButton style={{ backgroundColor: props.activeNote.id === note.id ? "#2b2b2b" : "transparent" }} asChild>
-                    <a>{note.title}</a>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
+                <SidebarMenuButton style={{ backgroundColor: props.activeNote.id === note.id ? "#2b2b2b" : "transparent" }} asChild>
+                  <a>{note.title?.slice(0, 20)}{note.title?.length > 20 ? "..." : ""}</a>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
