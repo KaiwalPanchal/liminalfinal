@@ -56,8 +56,96 @@ export const updateNote = async (noteId: string, updatedContent: any) => {
     console.log(updatedContent);
     
     const updateObject = {
-      content: updatedContent,
-      updated_at: serverTimestamp() // Using serverTimestamp() is preferred over new Date().toString()
+      content: {
+        "headingOneID": {
+            "id": "headingOneID",
+            "type": "HeadingOne",
+            "meta": {
+                "depth": 0,
+                "order": 0
+            },
+            "value": [
+                {
+                    "id": "uniqueID1",
+                    "type": "heading-one",
+                    "props": {
+                        "nodeType": "block"
+                    },
+                    "children": [
+                        {
+                            "text": "Neural Networks & Digit Recognition: Fundamental Concepts"
+                        }
+                    ]
+                }
+            ]
+        },
+        "headingTwoID": {
+            "id": "headingTwoID",
+            "type": "HeadingTwo",
+            "meta": {
+                "depth": 0,
+                "order": 1
+            },
+            "value": [
+                {
+                    "id": "uniqueID2",
+                    "type": "heading-two",
+                    "props": {
+                        "nodeType": "block"
+                    },
+                    "children": [
+                        {
+                            "text": "1. The Challenge of Image Recognition"
+                        }
+                    ]
+                }
+            ]
+        },
+        "bulletedListItem1ID": {
+            "id": "bulletedListItem1ID",
+            "type": "BulletedList",
+            "meta": {
+                "order": 2,
+                "depth": 0
+            },
+            "value": [
+                {
+                    "id": "uniqueID3",
+                    "type": "bulleted-list",
+                    "children": [
+                        {
+                            "text": "Written sloppily"
+                        }
+                    ]
+                }
+            ]
+        },
+        "bulletedListItem2ID": {
+            "id": "bulletedListItem2ID",
+            "type": "BulletedList",
+            "meta": {
+                "align": "left",
+                "depth": 0,
+                "order": 3
+            },
+            "value": [
+                {
+                    "id": "uniqueID4",
+                    "type": "bulleted-list",
+                    "children": [
+                        {
+                            "text": "Rendered at low resolution (28 x 28 pixels)"
+                        }
+                    ],
+                    "props": {
+                        "nodeType": "block"
+                    }
+                }
+            ]
+        }
+    }
+    ,
+      updated_at: new Date().toString() // Using serverTimestamp() is preferred over new Date().toString()
     };
 
     // Update the document

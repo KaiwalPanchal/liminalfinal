@@ -27,6 +27,7 @@ import sampleNotes from "../sample-notes.json"
 import { uuid } from 'uuidv4';
 import { Check } from "lucide-react";
 import { addNote, getAllNotes, updateTitle } from "@/lib/firebase";
+import Graph from "@/components/graph";
 
 interface Note {
   id?: string;
@@ -53,6 +54,19 @@ export default function Component() {
 
     setNotes(updatedNotes);
   };
+
+  const insertGraph = async (text: string) => {
+    
+  }
+
+  const queryGraph = async (text: string) => {
+    
+  }
+
+  // const noteParser = () => {
+  //   let formatted
+    
+  // }
 
   const addNewNote = () => {
     const newNote: Note = { content: {}, title: "Untitled", created_at: new Date().toString(), id: uuid(), updated_at: new Date().toString()};
@@ -102,14 +116,12 @@ export default function Component() {
             <Button onClick={() => {setUpdatingTitle(false); updateTitle(activeNote?.id, activeNote?.title)}}><Check /></Button>
           </div>}
         </header>
-        <div className="flex w-full h-full">
-          <div className="flex-1 p-4">
+        <div className="flex w-full h-full align-middle justify-between">
+          <div className="flex p-4 mr-15">
             {activeNote && <Editor key={activeNote?.id} activeNote={activeNote} onUpdateContent={handleUpdateContent} />}
           </div>
-
-          {/* Right Div */}
-          <div className="w-1/3 p-4 bg-zinc-900">
-
+          <div>
+          <Graph/>
           </div>
         </div>
       </SidebarInset>
