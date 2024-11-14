@@ -1,29 +1,16 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Analytics } from "@vercel/analytics/react";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { AppSidebar } from "@/components/ui/app-sidebar"
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar"
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"; // Import Collapsible from shadcn
 import Editor from "@/components/editor";
-import sampleNotes from "../sample-notes.json"
 import { uuid } from 'uuidv4';
 import { Check } from "lucide-react";
 import { addNote, getAllNotes, updateTitle } from "@/lib/firebase";

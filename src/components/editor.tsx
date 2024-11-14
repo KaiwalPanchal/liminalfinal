@@ -1,8 +1,5 @@
 import YooptaEditor, {
     createYooptaEditor,
-    Elements,
-    Blocks,
-    useYooptaEditor,
     YooptaContentValue,
     YooptaOnChangeOptions,
   } from '@yoopta/editor';
@@ -10,11 +7,8 @@ import YooptaEditor, {
   import Paragraph from '@yoopta/paragraph';
   import Blockquote from '@yoopta/blockquote';
   import Embed from '@yoopta/embed';
-  import Image from '@yoopta/image';
   import Link from '@yoopta/link';
   import Callout from '@yoopta/callout';
-  import Video from '@yoopta/video';
-  import File from '@yoopta/file';
   import Accordion from '@yoopta/accordion';
   import { NumberedList, BulletedList, TodoList } from '@yoopta/lists';
   import { Bold, Italic, CodeMark, Underline, Strike, Highlight } from '@yoopta/marks';
