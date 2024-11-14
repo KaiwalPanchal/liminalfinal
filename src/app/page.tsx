@@ -45,18 +45,6 @@ export default function Component() {
     setNotes(updatedNotes);
   };
 
-  const insertGraph = async (text: string) => {
-    
-  }
-
-  const queryGraph = async (text: string) => {
-    
-  }
-
-  // const noteParser = () => {
-  //   let formatted
-    
-  // }
 
   const addNewNote = () => {
     const newNote: Note = { content: {}, title: "Untitled", created_at: new Date().toString(), id: uuid(), updated_at: new Date().toString()};
