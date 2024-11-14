@@ -1,9 +1,9 @@
-import dynamic from "next/dynamic"
+import dynamic from "next/dynamic";
 
-const MainContent = dynamic(() => import("./main"), { ssr: false })
+const MainContent = dynamic(() => import("./main"), { ssr: false });
 
 const Page = () => {
-  return <MainContent />
-}
+  return <MainContent />;
+};
 
-export default Page
+export default Page;
