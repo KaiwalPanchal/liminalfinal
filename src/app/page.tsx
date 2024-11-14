@@ -65,14 +65,14 @@ export default function Component() {
   }
 
   useEffect(() => {
-    const user = localStorage.getItem("user") || "";
-    if (user === "YCombinator") {
-      initNotes();
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem("user") || "";
+      if (user === "Ycombinator") {
+        initNotes();
+      } else {
+        redirect('/login');
+      }
     }
-    else {
-      redirect('/login')
-    }
-      
   }, []);
 
   const initNotes = async () => {
