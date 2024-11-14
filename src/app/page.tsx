@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { AppSidebar } from "@/components/ui/app-sidebar"
@@ -16,6 +16,7 @@ import { Check } from "lucide-react";
 import { addNote, getAllNotes, updateTitle } from "@/lib/firebase";
 import Graph from "@/components/graph";
 import { redirect } from "next/navigation";
+import { useRouter } from "next/router";
 
 interface Note {
   id?: string;
@@ -32,6 +33,7 @@ export default function Component() {
   const [notes, setNotes] = useState<any[]>([]);
   const [activeNote, setActiveNote] = useState<any>(null);
   const [updatingTitle, setUpdatingTitle] = useState(false)
+  const router = useRouter();
 
   const handleUpdateContent = (noteId: string, newContent: string) => {
     const updatedNotes = notes.map(note =>
@@ -65,15 +67,14 @@ export default function Component() {
   }
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
       const user = localStorage.getItem("user") || "";
       if (user === "Ycombinator") {
         initNotes();
       } else {
-        redirect('/login');
+        router.push("/login")
       }
     }
-  }, []);
+  );
 
   const initNotes = async () => {
     const notedata = await getAllNotes()

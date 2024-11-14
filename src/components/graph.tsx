@@ -1,3 +1,4 @@
+'use client';
 import React, { useCallback } from 'react';
 import { ForceGraph2D } from 'react-force-graph';
 
