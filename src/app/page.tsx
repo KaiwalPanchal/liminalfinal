@@ -66,16 +66,6 @@ export default function Component() {
     addNote(newNote);
   }
 
-  useEffect(() => {
-      const user = localStorage.getItem("user") || "";
-      if (user === "Ycombinator") {
-        initNotes();
-      } else {
-        router.push("/login")
-      }
-    }
-  );
-
   const initNotes = async () => {
     const notedata = await getAllNotes()
     console.log(notedata);
@@ -89,6 +79,16 @@ export default function Component() {
       setActiveNote(notedata[0])
     }
   }
+
+  useEffect(() => {
+      const user = localStorage.getItem("user") || "";
+      if (user === "Ycombinator") {
+        initNotes();
+      } else {
+        router.push("/login")
+      }
+    }
+  ,[]);
 
   return (
     <SidebarProvider>
