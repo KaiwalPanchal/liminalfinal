@@ -24,7 +24,7 @@ export default function Component() {
     console.log(e, email, password);
 
     try {
-      if (email === "Ycombinator" && password === "Admin@123") {
+      if (email === "Ycombinator" && password === "Admin123") {
         localStorage.setItem("user", email);
         window.location.href = "/";
       } else {
