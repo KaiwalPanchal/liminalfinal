@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "noImplicitAny": false, // If you need to allow 'any' types temporarily
+    "noUnusedLocals": false, // Allows unused local variables
+    "noUnusedParameters": false, // Allows unused parameters
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,

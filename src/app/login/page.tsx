@@ -7,7 +7,12 @@ import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
 import { addToWaitList } from "@/lib/firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 import { redirect } from "next/navigation";
 // import { toast } from "@/hooks/use-toast";
 
@@ -18,23 +23,21 @@ export default function Component() {
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
-    //   window.location.href = "/";
+      //   window.location.href = "/";
     }
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     console.log(e, email, password);
-    
+
     try {
-     if (email === "YCombinator" && password === "Admin@123") {
+      if (email === "Ycombinator" && password === "Admin@123") {
         localStorage.setItem("user", email);
         window.location.href = "/";
-     }
-     else{
+      } else {
         alert("Wrong email or password");
-     }
-
+      }
     } catch (error) {
       console.error("Error loggin:", error);
     }
@@ -73,7 +76,7 @@ export default function Component() {
 
       <main className="flex-grow flex items-center relative z-20">
         <div className="container mx-auto px-4 py-20 text-center">
-        <h1
+          <h1
             id="liminal-title"
             className="text-4xl font-normal text-white title tracking-[1px] my-5"
           >
@@ -86,30 +89,30 @@ export default function Component() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
           >
-              <>
-                <Input
-                  type="text"
-                  placeholder="Enter your ID"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
-                  required
-                />
-                <Input
-                  type="password"
-                  placeholder="Enter your password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
-                  required
-                />
-                <Button
-                  type="submit"
-                  className="bg-white text-[#151515] hover:bg-white/90"
-                >→ Submit
-                </Button>
-              </>
-            
+            <>
+              <Input
+                type="text"
+                placeholder="Enter your ID"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
+                required
+              />
+              <Input
+                type="password"
+                placeholder="Enter your password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
+                required
+              />
+              <Button
+                type="submit"
+                className="bg-white text-[#151515] hover:bg-white/90"
+              >
+                → Submit
+              </Button>
+            </>
           </motion.form>
         </div>
         <Analytics />
