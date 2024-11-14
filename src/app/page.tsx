@@ -16,7 +16,7 @@ import { Check } from "lucide-react";
 import { addNote, getAllNotes, updateTitle } from "@/lib/firebase";
 import Graph from "@/components/graph";
 import { redirect } from "next/navigation";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 interface Note {
   id?: string;

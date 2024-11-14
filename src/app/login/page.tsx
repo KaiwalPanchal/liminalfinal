@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 // import { toast } from "@/hooks/use-toast";
 
 export default function Component() {
