@@ -281,7 +281,7 @@ export default function Component() {
       <footer className="py-8 relative z-10">
         <div className="container mx-auto px-4">
           <div className="flex justify-center items-center">
-            <span className="text-sm text-white/80">&copy; 2024 Curios. All rights reserved.</span>
+            <span className="text-sm text-white/80">&copy; 2024 Liminal. All rights reserved.</span>
           </div>
         </div>
       </footer>
