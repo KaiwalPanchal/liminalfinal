@@ -1,5 +1,4 @@
 import type { Config } from "tailwindcss";
-
 const config: Config = {
     darkMode: ["class"],
     content: [
@@ -9,6 +8,12 @@ const config: Config = {
   ],
   theme: {
   	extend: {
+		fontFamily: {
+			cedarville: ['"Cedarville Cursive"', 'cursive'],
+			italiana: ['"Italiana"', 'sans-serif'],
+			philosopher: ['"Philosopher"', 'sans-serif'],
+			spacemono: ['"Space Mono"', 'monospace'],
+		  },
   		colors: {
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',

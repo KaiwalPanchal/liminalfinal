@@ -2,10 +2,17 @@
 "use client";
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
+import { Nunito_Sans } from "next/font/google";
+
+const nunito = Nunito_Sans({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+})
 
 export default function Component() {
+
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden font-handwritten dark">
+    <div className={"min-h-screen flex flex-col relative overflow-hidden font-handwritten dark" + " " + nunito.className}>
       <BackgroundAnimation />
 
       <div className="absolute inset-0 bg-gradient-to-b from-[#151515]/80 to-[#151515]/20 backdrop-blur-sm z-10"></div>
@@ -22,8 +29,8 @@ export default function Component() {
         <nav>
           <ul className="flex space-x-10">
             <li>
-              <a href="/about" className="text-sm hover:underline text-white">
-                About
+              <a href="/info" className="text-sm hover:underline text-white">
+                Info
               </a>
             </li>
             <li>

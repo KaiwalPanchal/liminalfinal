@@ -6,13 +6,38 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
 import { addToWaitList } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { Brain, Network, Lightbulb, Briefcase, Users, Laptop, Lock, Plug } from 'lucide-react'
+import { Space_Mono, Nunito_Sans, Raleway } from 'next/font/google'
+import  localFont  from 'next/font/local'
+
+
+const spacemono = Space_Mono({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+})
+
+const raleway = Raleway({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+})
+
+const nunito = Nunito_Sans({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+})
+
+// const helvetica = localFont({
+//   src: '../fonts/helveticaNow.ttf',
+//   weight: '400',
+//   variable: '--font-helvetica'
+// })
+
 
 export default function Component() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -33,12 +58,32 @@ export default function Component() {
     }
   };
 
+  function FeatureItem({ icon, title, features, alignment }: { icon: React.ReactNode, title: string, features: string[], alignment: 'left' | 'right' }) {
+    return (
+      <motion.div 
+        className={`flex items-start ${alignment === 'left' ? 'flex-row' : 'flex-row-reverse'} gap-8`}
+        initial={{ opacity: 0, x: alignment === 'left' ? -50 : 50 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 1 }}
+      >
+        <div className="flex-shrink-0 mt-2">
+          {icon}
+        </div>
+        <div className={`flex-grow ${alignment === 'left' ? 'text-left' : 'text-right'}`}>
+          <h3 className="text-2xl font-semibold text-white mb-4">{title}</h3>
+          <ul className={`space-y-2 ${alignment === 'left' ? 'list-disc pl-5' : 'list-disc-reverse pr-5'}`}>
+            {features.map((feature, index) => (
+              <li key={index} className="text-white/80">{feature}</li>
+            ))}
+          </ul>
+        </div>
+      </motion.div>
+    )
+  }
+
   return (
-    <div className="min-h-screen flex flex-col relative overflow-hidden font-handwritten dark">
-      <BackgroundAnimation />
-
+    <div className={"min-h-screen flex flex-col relative overflow-hidden dark" + " " + nunito.className}>
       <div className="absolute inset-0 bg-gradient-to-b from-[#151515]/80 to-[#151515]/20 backdrop-blur-sm z-10"></div>
-
       <header className="container mx-auto px-10 py-6 flex justify-between items-center relative z-20">
         <div className="flex items-center space-x-2">
           <h1
@@ -63,8 +108,8 @@ export default function Component() {
           </ul>
         </nav>
       </header>
-
-      <main className="flex-grow flex items-center relative z-20">
+      <BackgroundAnimation />
+      <main className={"flex-grow flex flex-col items-center relative z-20" + " " + raleway.className}>
         <div className="container mx-auto px-4 py-20 text-center">
           <motion.h1
             className="text-5xl md:text-7xl font-bold mb-8 text-white leading-tight"
@@ -131,13 +176,112 @@ export default function Component() {
             )}
           </motion.form>
         </div>
+        <section className="w-full py-12 md:py-24 lg:py-32 relative">
+          <div className="container px-4 md:px-6 relative z-10">
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">Key Features</h2>
+            <div className="space-y-24">
+              <FeatureItem
+                icon={<Brain className="h-16 w-16 text-white" />}
+                title="Knowledge Management"
+                features={[
+                  "Powerful search capabilities",
+                  "Custom templates for different note types",
+                  "Export options in multiple formats",
+                  "Version history and backups",
+                  "File attachments and media support"
+                ]}
+                alignment="left"
+              />
+              <FeatureItem
+                icon={<Network className="h-16 w-16 text-white" />}
+                title="Graph-Based Note Organization"
+                features={[
+                  "Discover hidden connections between your ideas automatically",
+                  "Visualize your knowledge network as it grows",
+                  "Find related notes instantly with smart linking",
+                  "Never lose context with bi-directional references"
+                ]}
+                alignment="right"
+              />
+              <FeatureItem
+                icon={<Lightbulb className="h-16 w-16 text-white" />}
+                title="Enhanced Creativity Tools"
+                features={[
+                  "Mind mapping and brainstorming templates",
+                  "Capture ideas quickly with quick-entry mode",
+                  "Tag and categorize ideas for better organization",
+                  "Convert rough ideas into structured notes",
+                  "Set reminders to revisit and develop ideas"
+                ]}
+                alignment="left"
+              />
+              <FeatureItem
+                icon={<Briefcase className="h-16 w-16 text-white" />}
+                title="Project-Focused Workspaces"
+                features={[
+                  "Organize notes by projects and sub-projects",
+                  "Create custom workflows for different project types",
+                  "Set project milestones and deadlines",
+                  "Track project progress visually",
+                  "Switch contexts easily between different projects"
+                ]}
+                alignment="right"
+              />
+              <FeatureItem
+                icon={<Users className="h-16 w-16 text-white" />}
+                title="Seamless Team Collaboration"
+                features={[
+                  "Real-time collaborative editing and brainstorming",
+                  "Share specific note collections with team members",
+                  "Track changes and contributions",
+                  "Leave contextual comments and feedback",
+                  "Control access levels for different team members"
+                ]}
+                alignment="left"
+              />
+              {/* <FeatureItem
+                icon={<Laptop className="h-16 w-16 text-white" />}
+                title="Cross-Platform Accessibility"
+                features={[
+                  "Sync across desktop and mobile devices",
+                  "Work offline with automatic syncing",
+                  "Web-based access from anywhere",
+                  "Native apps for major platforms"
+                ]}
+                alignment="right"
+              /> */}
+              {/* <FeatureItem
+                icon={<Lock className="h-16 w-16 text-white" />}
+                title="Privacy & Security"
+                features={[
+                  "End-to-end encryption",
+                  "Self-hosting options",
+                  "Regular automated backups",
+                  "Custom privacy settings per note/project"
+                ]}
+                alignment="left"
+              /> */}
+              <FeatureItem
+                icon={<Plug className="h-16 w-16 text-white" />}
+                title="Integration Capabilities"
+                features={[
+                  "Connect with popular productivity tools",
+                  "Import from other note-taking apps",
+                  "API access for custom integrations",
+                  "Calendar integration for project timelines"
+                ]}
+                alignment="right"
+              />
+            </div>
+          </div>
+        </section>
         <Analytics />
       </main>
 
-      <footer className="py-8 relative z-20">
+      <footer className="py-8 relative z-10">
         <div className="container mx-auto px-4">
           <div className="flex justify-center items-center">
-            <span className="text-sm text-white/80"> </span>
+            <span className="text-sm text-white/80">&copy; 2024 Curios. All rights reserved.</span>
           </div>
         </div>
       </footer>
@@ -273,8 +417,10 @@ function BackgroundAnimation() {
     animate();
 
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      const dpr = window.devicePixelRatio || 1; // Handle high DPI screens
+      canvas.width = window.innerWidth * dpr;
+      canvas.height = window.innerHeight * dpr;
+      ctx.scale(dpr, dpr); // Match canvas scaling
     };
 
     window.addEventListener("resize", handleResize);
@@ -290,4 +436,5 @@ function BackgroundAnimation() {
       className="absolute top-0 left-0 w-full h-full bg-[#151515]"
     />
   );
+  
 }
