@@ -6,25 +6,33 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Analytics } from "@vercel/analytics/react";
 import { addToWaitList } from "@/lib/firebase";
-import { Brain, Network, Lightbulb, Briefcase, Users, Laptop, Lock, Plug } from 'lucide-react'
-import { Space_Mono, Nunito_Sans, Raleway } from 'next/font/google'
-import  localFont  from 'next/font/local'
-
+import {
+  Brain,
+  Network,
+  Lightbulb,
+  Briefcase,
+  Users,
+  Laptop,
+  Lock,
+  Plug,
+} from "lucide-react";
+import { Space_Mono, Nunito_Sans, Raleway } from "next/font/google";
+import localFont from "next/font/local";
 
 const spacemono = Space_Mono({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-})
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 const raleway = Raleway({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-})
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 const nunito = Nunito_Sans({
-  subsets: ['latin'],
-  weight: ['400', '700'],
-})
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 // const helvetica = localFont({
 //   src: '../fonts/helveticaNow.ttf',
@@ -32,12 +40,11 @@ const nunito = Nunito_Sans({
 //   variable: '--font-helvetica'
 // })
 
-
 export default function Component() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
-  
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -58,31 +65,57 @@ export default function Component() {
     }
   };
 
-  function FeatureItem({ icon, title, features, alignment }: { icon: React.ReactNode, title: string, features: string[], alignment: 'left' | 'right' }) {
+  function FeatureItem({
+    icon,
+    title,
+    features,
+    alignment,
+  }: {
+    icon: React.ReactNode;
+    title: string;
+    features: string[];
+    alignment: "left" | "right";
+  }) {
     return (
-      <motion.div 
-        className={`flex items-start ${alignment === 'left' ? 'flex-row' : 'flex-row-reverse'} gap-8`}
-        initial={{ opacity: 0, x: alignment === 'left' ? -50 : 50 }}
+      <motion.div
+        className={`flex items-start ${
+          alignment === "left" ? "flex-row" : "flex-row-reverse"
+        } gap-8`}
+        initial={{ opacity: 0, x: alignment === "left" ? -50 : 50 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1 }}
       >
-        <div className="flex-shrink-0 mt-2">
-          {icon}
-        </div>
-        <div className={`flex-grow ${alignment === 'left' ? 'text-left' : 'text-right'}`}>
+        <div className="flex-shrink-0 mt-2">{icon}</div>
+        <div
+          className={`flex-grow ${
+            alignment === "left" ? "text-left" : "text-right"
+          }`}
+        >
           <h3 className="text-2xl font-semibold text-white mb-4">{title}</h3>
-          <ul className={`space-y-2 ${alignment === 'left' ? 'list-disc pl-5' : 'list-disc-reverse pr-5'}`}>
+          <ul
+            className={`space-y-2 ${
+              alignment === "left" ? "list-disc pl-5" : "list-disc-reverse pr-5"
+            }`}
+          >
             {features.map((feature, index) => (
-              <li key={index} className="text-white/80">{feature}</li>
+              <li key={index} className="text-white/80">
+                {feature}
+              </li>
             ))}
           </ul>
         </div>
       </motion.div>
-    )
+    );
   }
 
   return (
-    <div className={"min-h-screen flex flex-col relative overflow-hidden dark" + " " + nunito.className}>
+    <div
+      className={
+        "min-h-screen flex flex-col relative overflow-hidden dark" +
+        " " +
+        nunito.className
+      }
+    >
       <div className="absolute inset-0 bg-gradient-to-b from-[#151515]/80 to-[#151515]/20 backdrop-blur-sm z-10"></div>
       <header className="container mx-auto px-10 py-6 flex justify-between items-center relative z-20">
         <div className="flex items-center space-x-2">
@@ -109,7 +142,13 @@ export default function Component() {
         </nav>
       </header>
       <BackgroundAnimation />
-      <main className={"flex-grow flex flex-col items-center relative z-20" + " " + raleway.className}>
+      <main
+        className={
+          "flex-grow flex flex-col items-center relative z-20" +
+          " " +
+          raleway.className
+        }
+      >
         <div className="container mx-auto px-4 py-20 text-center">
           <motion.h1
             className="text-5xl md:text-7xl font-bold mb-8 text-white leading-tight"
@@ -178,7 +217,9 @@ export default function Component() {
         </div>
         <section className="w-full py-12 md:py-24 lg:py-32 relative">
           <div className="container px-4 md:px-6 relative z-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">Key Features</h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-center text-white mb-12">
+              Key Features
+            </h2>
             <div className="space-y-24">
               <FeatureItem
                 icon={<Brain className="h-16 w-16 text-white" />}
@@ -188,7 +229,7 @@ export default function Component() {
                   "Custom templates for different note types",
                   "Export options in multiple formats",
                   "Version history and backups",
-                  "File attachments and media support"
+                  "File attachments and media support",
                 ]}
                 alignment="left"
               />
@@ -199,7 +240,7 @@ export default function Component() {
                   "Discover hidden connections between your ideas automatically",
                   "Visualize your knowledge network as it grows",
                   "Find related notes instantly with smart linking",
-                  "Never lose context with bi-directional references"
+                  "Never lose context with bi-directional references",
                 ]}
                 alignment="right"
               />
@@ -211,7 +252,7 @@ export default function Component() {
                   "Capture ideas quickly with quick-entry mode",
                   "Tag and categorize ideas for better organization",
                   "Convert rough ideas into structured notes",
-                  "Set reminders to revisit and develop ideas"
+                  "Set reminders to revisit and develop ideas",
                 ]}
                 alignment="left"
               />
@@ -223,7 +264,7 @@ export default function Component() {
                   "Create custom workflows for different project types",
                   "Set project milestones and deadlines",
                   "Track project progress visually",
-                  "Switch contexts easily between different projects"
+                  "Switch contexts easily between different projects",
                 ]}
                 alignment="right"
               />
@@ -235,7 +276,7 @@ export default function Component() {
                   "Share specific note collections with team members",
                   "Track changes and contributions",
                   "Leave contextual comments and feedback",
-                  "Control access levels for different team members"
+                  "Control access levels for different team members",
                 ]}
                 alignment="left"
               />
@@ -268,7 +309,7 @@ export default function Component() {
                   "Connect with popular productivity tools",
                   "Import from other note-taking apps",
                   "API access for custom integrations",
-                  "Calendar integration for project timelines"
+                  "Calendar integration for project timelines",
                 ]}
                 alignment="right"
               />
@@ -281,7 +322,9 @@ export default function Component() {
       <footer className="py-8 relative z-10">
         <div className="container mx-auto px-4">
           <div className="flex justify-center items-center">
-            <span className="text-sm text-white/80">&copy; 2024 Liminal. All rights reserved.</span>
+            <span className="text-sm text-white/80">
+              &copy; 2024 Liminal. All rights reserved.
+            </span>
           </div>
         </div>
       </footer>
@@ -436,5 +479,4 @@ function BackgroundAnimation() {
       className="absolute top-0 left-0 w-full h-full bg-[#151515]"
     />
   );
-  
 }
