@@ -25,7 +25,7 @@ const firebaseConfig = {
   storageBucket: "liminal-notes-sample.firebasestorage.app",
   messagingSenderId: "77724716159",
   appId: "1:77724716159:web:cf4b74a38b3706134a834a",
-  measurementId: "G-2FD5CY9TH5",
+  measurementId: "G-2FD5CY9TH5"
 };
 
 // Initialize Firebase
