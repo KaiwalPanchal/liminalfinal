@@ -29,7 +29,7 @@ Liminal leverages a robust technical stack to achieve its goals:
 
 *   **Backend:** Developed with **FastAPI**, serving as the core API layer. It integrates with **Neo4j** for dynamic knowledge graph storage and querying, and **Firestore** for managing structured data like user profiles and project information.
 *   **Frontend:** Built using **Next.js** for web applications, with an eye towards **React Native** for potential mobile experiences, offering a consistent and responsive user interface.
-*   **NLP Processing:** Utilizes advanced LLM capabilities, dynamically switching between **Ollama** (for local processing, especially with GPU availability) and **OpenAI** (for cloud-based processing) to handle natural language understanding, entity extraction, and embeddings. The knowledge graph is constructed through sophisticated NLP techniques, including Named Entity Recognition (NER), action-relationship extraction, theme discovery, and abstraction, inspired by methods like a modified **LightRAG** implementation.
+*   **NLP Processing:** Utilizes advanced LLM capabilities, **OpenAI** (for cloud-based processing) to handle natural language understanding, entity extraction, and embeddings. The knowledge graph is constructed through sophisticated NLP techniques, including Named Entity Recognition (NER), action-relationship extraction, theme discovery, and abstraction, inspired by methods like a modified **LightRAG** implementation.
 *   **Storage:** Persistent data is managed across several solutions:
     *   **Persistent cloud disks** for storing large files (audio, PDFs, etc.).
     *   **Neo4j** specifically for the complex interconnections of the knowledge graph.
