@@ -69,7 +69,7 @@ export default function Component() {
 
   useEffect(() => {
       const user = localStorage.getItem("user") || "";
-      if (user === "Ycombinator") {
+      if (user) {
         initNotes();
       } else {
         router.push("/login")

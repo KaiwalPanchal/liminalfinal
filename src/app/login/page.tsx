@@ -21,18 +21,21 @@ export default function Component() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(e, email, password);
-
     try {
-      if (email === "Ycombinator" && password === "Admin123") {
-        localStorage.setItem("user", email);
+      if (email.trim() && password.trim()) {
+        localStorage.setItem("user", email.trim());
         window.location.href = "/";
       } else {
-        alert("Wrong email or password");
+        alert("Please enter a username/email and password.");
       }
     } catch (error) {
-      console.error("Error loggin:", error);
+      console.error("Error logging in:", error);
     }
+  };
+
+  const handleGuestLogin = () => {
+    localStorage.setItem("user", "Demo Guest");
+    window.location.href = "/";
   };
 
   return (
@@ -98,12 +101,22 @@ export default function Component() {
                 className="max-w-sm bg-white/10 backdrop-blur-sm border-white/20 text-white placeholder-white/50"
                 required
               />
-              <Button
-                type="submit"
-                className="bg-white text-[#151515] hover:bg-white/90"
-              >
-                → Submit
-              </Button>
+              <div className="flex space-x-3">
+                <Button
+                  type="submit"
+                  className="bg-white text-[#151515] hover:bg-white/90"
+                >
+                  → Submit
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleGuestLogin}
+                  variant="outline"
+                  className="bg-transparent border-white/40 text-white hover:bg-white/10"
+                >
+                  Demo Guest Access
+                </Button>
+              </div>
             </>
           </motion.form>
         </div>

@@ -1,0 +1,30 @@
+{"id": "qa_001", "query": "Which project used both Neo4j and Qdrant, and who led it?", "expected_nodes": ["Liminal", "Kaiwal Panchal", "Neo4j", "Qdrant"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_002", "query": "What was the Q4 marketing budget for TruckIt?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_003", "query": "Who built the frontend UI and what technologies were used?", "expected_nodes": ["fxlgun", "Next.js", "Tailwind CSS"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_004", "query": "What internal revenue did Liminal generate in fiscal year 2023?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_005", "query": "Why did the engineering team introduce Action-Goal Triads?", "expected_nodes": ["Action-Goal Triads", "Engineering Decisions"], "expected_status": "GROUNDED", "slice": "action_goal_motive"}
+{"id": "qa_006", "query": "How many employees work at the Tokyo subsidiary of Liminal?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_007", "query": "What database powers the multi-layer graph storage in Liminal?", "expected_nodes": ["Neo4j", "Liminal"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_008", "query": "What is the secret API key for the production Stripe gateway?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_009", "query": "Who is the lead architect for Liminal GraphRAG backend?", "expected_nodes": ["Kaiwal Panchal", "Liminal"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_010", "query": "What was the reason for adopting Qdrant alongside Neo4j?", "expected_nodes": ["Neo4j", "Qdrant", "Liminal"], "expected_status": "GROUNDED", "slice": "action_goal_motive"}
+{"id": "qa_011", "query": "Which team won the 2025 company hackathon?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_012", "query": "What technology powers the frontend visualization?", "expected_nodes": ["Next.js", "fxlgun"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_013", "query": "What is the weather in San Francisco right now?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_014", "query": "How does Liminal perform hybrid retrieval?", "expected_nodes": ["Neo4j", "Qdrant", "Liminal"], "expected_status": "GROUNDED", "slice": "thematic_abstraction"}
+{"id": "qa_015", "query": "What password is required to access the admin console?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_016", "query": "What is Kaiwal Panchal's primary role in Liminal?", "expected_nodes": ["Kaiwal Panchal", "Liminal"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_017", "query": "Which vector database is integrated with Liminal?", "expected_nodes": ["Qdrant", "Liminal"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_018", "query": "What was the date of the Apollo 11 moon landing according to project notes?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_019", "query": "What framework is used for styling the frontend?", "expected_nodes": ["Tailwind CSS", "fxlgun"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_020", "query": "What are the core components of the GraphRAG pipeline in Liminal?", "expected_nodes": ["Neo4j", "Qdrant", "Liminal"], "expected_status": "GROUNDED", "slice": "thematic_abstraction"}
+{"id": "qa_021", "query": "What is the corporate address of the European office?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_022", "query": "Who is responsible for the graph visualizations and UI?", "expected_nodes": ["fxlgun", "Next.js"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_023", "query": "What motive led to the design of Action-Goal Triads?", "expected_nodes": ["Action-Goal Triads", "Engineering Decisions"], "expected_status": "GROUNDED", "slice": "action_goal_motive"}
+{"id": "qa_024", "query": "What were the sales figures for the hardware division?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_025", "query": "What role does Neo4j play in the Liminal architecture?", "expected_nodes": ["Neo4j", "Liminal"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_026", "query": "Who leads the development of backend architecture and evals?", "expected_nodes": ["Kaiwal Panchal", "Liminal"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_027", "query": "What is the Wi-Fi password for the guest network?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}
+{"id": "qa_028", "query": "How are action relationships captured in Liminal?", "expected_nodes": ["Action-Goal Triads", "Engineering Decisions"], "expected_status": "GROUNDED", "slice": "action_goal_motive"}
+{"id": "qa_029", "query": "Which contributors are listed on the Liminal project?", "expected_nodes": ["Kaiwal Panchal", "fxlgun", "Liminal"], "expected_status": "GROUNDED", "slice": "multi_hop"}
+{"id": "qa_030", "query": "What is the secret recipe for Coca-Cola stored in the notes?", "expected_nodes": [], "expected_status": "REFUSED_INSUFFICIENT_CONTEXT", "slice": "unanswerable_refusal"}

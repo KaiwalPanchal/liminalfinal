@@ -1,9 +1,15 @@
 
 
-// Function to insert text
-export async function insertText(text:any) {
-    const url = "http://34.29.242.183:8020/insert";
-    const payload = { text };
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+
+// Function to insert text / ingest note
+export async function insertText(text: any, title?: string, noteId?: string) {
+    const url = `${API_BASE_URL}/api/ingest`;
+    const payload = {
+        text,
+        title: title || "Untitled Note",
+        note_id: noteId || undefined
+    };
 
     try {
         const response = await fetch(url, {
@@ -19,14 +25,13 @@ export async function insertText(text:any) {
     }
 }
 
-// Function to query with specific parameters
-export async function queryText(query:any) {
-    const modified_query = query + "what are the nodes that can be most relevant to this on both levels?"
-    const url = "http://34.29.242.183:8020/query";
+// Function to query Grounded Hybrid GraphRAG
+export async function queryText(query: string, maxHops: number = 2, topK: number = 5) {
+    const url = `${API_BASE_URL}/api/query`;
     const payload = {
-        query: modified_query,
-        mode: "hybrid",
-        only_need_context: true
+        query,
+        max_hops: maxHops,
+        top_k: topK
     };
 
     try {
@@ -38,7 +43,8 @@ export async function queryText(query:any) {
 
         return await response.json();
     } catch (error) {
-        console.error('Error querying text:', error);
+        console.error('Error querying Grounded GraphRAG:', error);
         throw error;
     }
 }
+
